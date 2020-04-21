@@ -1,0 +1,49 @@
+package com.graph;
+
+public class Edge {
+	private int id;
+	private int indexInitialVertex;
+	private int indexFinalVertex;
+	private String nameFinalVertex;
+	private String nameInitialVertex;
+	private int nbValues;
+	private double[] values;
+
+	public Edge(int id,int indexInitialVertex,int indexFinalVertex,String nameInitialVertex,String nameFinalVertex,int nbValues,double[] values){
+		this.id=id;
+		this.indexFinalVertex=indexFinalVertex;
+		this.indexInitialVertex=indexInitialVertex;
+		this.nameFinalVertex=nameFinalVertex;
+		this.nameInitialVertex=nameInitialVertex;
+		this.nbValues=nbValues;
+		this.values=values;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public int getIndexInitialVertex() {
+		return indexInitialVertex;
+	}
+
+	public int getIndexFinalVertex() {
+		return indexFinalVertex;
+	}
+
+	public String getNameFinalVertex() {
+		return nameFinalVertex;
+	}
+
+	public String getNameInitialVertex() {
+		return nameInitialVertex;
+	}
+
+	public int getNbValues() {
+		return nbValues;
+	}
+
+	public double[] getValues() {
+		return values;
+	}
+}
