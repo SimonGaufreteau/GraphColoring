@@ -1,5 +1,7 @@
 package com.graph;
 
+import java.util.Arrays;
+
 public class Edge {
 	private int id;
 	private int indexInitialVertex;
@@ -45,5 +47,18 @@ public class Edge {
 
 	public double[] getValues() {
 		return values;
+	}
+
+	@Override
+	public String toString() {
+		return "Edge{" +
+				"id=" + id +
+				", indexInitialVertex=" + indexInitialVertex +
+				", indexFinalVertex=" + indexFinalVertex +
+				", nameFinalVertex='" + nameFinalVertex + '\'' +
+				", nameInitialVertex='" + nameInitialVertex + '\'' +
+				", nbValues=" + nbValues +
+				", values=" + Arrays.toString(values) +
+				'}';
 	}
 }

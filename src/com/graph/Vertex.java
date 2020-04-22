@@ -1,5 +1,7 @@
 package com.graph;
 
+import java.util.Arrays;
+
 public class Vertex {
 	private int id;
 	private String name;
@@ -49,5 +51,19 @@ public class Vertex {
 
 	public double[] getValues() {
 		return values;
+	}
+
+
+	@Override
+	public String toString() {
+		return "Vertex{" +
+				"id=" + id +
+				", name='" + name + '\'' +
+				", degree=" + degree +
+				", degreePos=" + degreePos +
+				", color=" + color +
+				", nbValues=" + nbValues +
+				", values=" + Arrays.toString(values) +
+				'}';
 	}
 }
