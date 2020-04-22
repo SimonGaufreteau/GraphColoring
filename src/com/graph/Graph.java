@@ -26,6 +26,19 @@ public class Graph {
 		this.listAdjacent=listAdjacent;
 	}
 
+
+	public ArrayList<Vertex> getListVertices() {
+		return listVertices;
+	}
+
+	public String degreesToString(){
+		StringBuilder res = new StringBuilder("List of degrees : \n");
+		for(Vertex vertex:listVertices){
+			res.append(vertex.getId()).append(" -> ").append(vertex.getDegree()).append("\n");
+		}
+		return res.toString();
+	}
+
 	public String toString(){
 		StringBuilder res = new StringBuilder("----- GRAPH -----\n" +
 				"Graph name : " + name + "\n" +
