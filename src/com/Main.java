@@ -13,23 +13,34 @@ public class Main {
 		Graph graph= GraphParser.getGraphFromFile(filepath);
 		System.out.println(graph);
 		System.out.println(graph.degreesToString());
-		Algorithms.displayColoringResult(Algorithms.greedyColoring(graph,graph.getListVertices()));
+		ArrayList<Vertex> order = (ArrayList<Vertex>) graph.getListVertices().clone();
+		Map<Integer,Integer> colorMap = Algorithms.greedyColoring(graph,order);
+		Algorithms.displayColoringResult(colorMap);
+		System.out.println("Checking coloring : " +(Algorithms.checkColoring(graph,colorMap)?"valid":"invalid"));
+		System.out.println("Max color : "+Algorithms.getMaxColor(colorMap));
+
 		System.out.println("\nShuffling the order...\n");
-		ArrayList<Vertex> order = graph.getListVertices();
 		Collections.shuffle(order);
-		Algorithms.displayColoringResult(Algorithms.greedyColoring(graph,order));
+		colorMap= Algorithms.greedyColoring(graph,order);
+		Algorithms.displayColoringResult(colorMap);
+		System.out.println("Checking coloring : " +(Algorithms.checkColoring(graph,colorMap)?"valid":"invalid"));
+		System.out.println("Max color : "+Algorithms.getMaxColor(colorMap));
 
 		System.out.println("\nWelsh Powell :\n");
-		graph.getListVertices().sort((o1, o2) -> o2.getDegree()-o1.getDegree());
-		System.out.println(Arrays.toString(graph.getListVertices().toArray()));
-		Algorithms.displayColoringResult(Algorithms.welshPowell(graph,order));
+		order.sort((o1, o2) -> o2.getDegree()-o1.getDegree());
+		System.out.println(Arrays.toString(order.toArray()));
+		colorMap= Algorithms.welshPowell(graph,order);
+		Algorithms.displayColoringResult(colorMap);
+		System.out.println("Checking coloring : " +(Algorithms.checkColoring(graph,colorMap)?"valid":"invalid"));
+		System.out.println("Max color : "+Algorithms.getMaxColor(colorMap));
 
+		System.out.println("\nDSATUR :\n");
+		colorMap= Algorithms.dsatur(graph);
+		Algorithms.displayColoringResult(colorMap);
+		System.out.println("Checking coloring : " +(Algorithms.checkColoring(graph,colorMap)?"valid":"invalid"));
+		System.out.println("Max color : "+Algorithms.getMaxColor(colorMap));
 
-
-		/*
-		String filepath2 = "tests/anna.col";
-		Graph graph2= GraphParser.getGraphFromFile(filepath2);
-		System.out.println(graph2);
-		System.out.println(graph2.degreesToString());*/
 	}
+
+
 }
