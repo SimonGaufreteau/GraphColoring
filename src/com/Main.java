@@ -5,21 +5,26 @@ import com.graph.Graph;
 import com.graph.Vertex;
 import com.graphParser.GraphParser;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
+import java.util.*;
 
 public class Main {
 	public static void main(String[] args) throws Exception {
-		String filepath = "tests/myciel3.col";
+		String filepath = "tests/anna.col";
 		Graph graph= GraphParser.getGraphFromFile(filepath);
 		System.out.println(graph);
 		System.out.println(graph.degreesToString());
-		Algorithms.greedyColoring(graph,graph.getListVertices());
+		Algorithms.displayColoringResult(Algorithms.greedyColoring(graph,graph.getListVertices()));
 		System.out.println("\nShuffling the order...\n");
 		ArrayList<Vertex> order = graph.getListVertices();
 		Collections.shuffle(order);
-		Algorithms.greedyColoring(graph,order);
+		Algorithms.displayColoringResult(Algorithms.greedyColoring(graph,order));
+
+		System.out.println("\nWelsh Powell :\n");
+		graph.getListVertices().sort((o1, o2) -> o2.getDegree()-o1.getDegree());
+		System.out.println(Arrays.toString(graph.getListVertices().toArray()));
+		Algorithms.displayColoringResult(Algorithms.welshPowell(graph,order));
+
+
 
 		/*
 		String filepath2 = "tests/anna.col";
