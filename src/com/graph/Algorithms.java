@@ -6,6 +6,15 @@ import java.util.stream.Collectors;
 public class Algorithms {
 	private Algorithms(){}
 
+	private static int findSmallestColor(boolean[] available, int nb) {
+		int color;
+		for(color=0;color<nb;color++){
+			if(available[color])
+				return color;
+		}
+		return nb;
+	}
+
 	/**
 	 * Greedy Coloring algorithm. Returns a mapping of Verted.getID() --> color.
 	 */
@@ -42,21 +51,54 @@ public class Algorithms {
 			// Reset the values back to true for the next iteration
 			Arrays.fill(available, true);
 		}
+		return map;
+	}
 
-		// print the result
-		for(int id:map.keySet()){
-			System.out.println("Vertex " + id + " --->  Color "
-					+ map.get(id));
+	public static Map<Integer,Integer> welshPowell(Graph graph, ArrayList<Vertex> order) {
+		ArrayList<Vertex> L = (ArrayList<Vertex>) order.clone();
+
+		Map<Integer, Integer> map = new HashMap<>();
+		int k = 1;
+		while (!L.isEmpty()) {
+			Vertex x = L.get(0);
+			map.put(x.getId(), k);
+			L.remove(x);
+			if(L.isEmpty()) break;
+			Vertex y = L.get(0);
+			for (int i = 0; i < L.size(); i++) {
+				Vertex vertex = L.get(i);
+				if (!isAdjacentColor(y, graph, map, k)) {
+					map.put(y.getId(), k);
+					L.remove(y);
+					if(L.isEmpty()) break;
+				}
+				y = vertex;
+			}
+			k++;
 		}
 		return map;
 	}
 
-	private static int findSmallestColor(boolean[] available, int nb) {
-		int color;
-		for(color=0;color<nb;color++){
-			if(available[color])
-				return color;
+	private static boolean isAdjacentColor(Vertex y, Graph graph,Map<Integer,Integer> colors,int k) {
+		LinkedList<Integer> linkedList = graph.listAdjacent.get(y.getId());
+		for(Integer edgeID:linkedList){
+			Edge edge = graph.listEdges.get(edgeID);
+			int neighbourID;
+			if (edge.getIndexInitialVertex() == y.getId())
+				neighbourID=edge.getIndexFinalVertex();
+			else neighbourID=edge.getIndexInitialVertex();
+
+			if(colors.get(neighbourID)!=null  && colors.get(neighbourID)==k) return true;
 		}
-		return nb;
+		return false;
 	}
+
+
+	public static void displayColoringResult(Map<Integer,Integer> colors){
+		for(int id:colors.keySet()){
+			System.out.println("Vertex " + id + " --->  Color "
+					+ colors.get(id));
+		}
+	}
+
 }
