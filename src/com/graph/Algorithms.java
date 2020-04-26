@@ -1,9 +1,6 @@
 package com.graph;
 
-import java.lang.reflect.Array;
-import java.net.Inet4Address;
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class Algorithms {
 	private Algorithms(){}
@@ -18,7 +15,7 @@ public class Algorithms {
 	}
 
 	/**
-	 * Greedy Coloring algorithm. Returns a mapping of Verted.getID() --> color.
+	 * Greedy Coloring algorithm. Returns a mapping of Vertex.getID() --> color.
 	 */
 	public static Map<Integer,Integer> greedyColoring(Graph graph, ArrayList<Vertex> order){
 		int nb=graph.nbVertices;
@@ -31,9 +28,7 @@ public class Algorithms {
 		// Assign the first color to first vertex
 		map.put(order.get(0).getId(),0);
 
-		// A temporary array to store the available colors. False
-		// value of available[cr] would mean that the color cr is
-		// assigned to one of its adjacent vertices
+		// A temporary array to store the available colors.
 		boolean[] available = new boolean[nb];
 
 		// Initially, all colors are available
@@ -48,7 +43,9 @@ public class Algorithms {
 		}
 		return map;
 	}
-
+	/**
+	 * Welsh-Powell algorithm. Returns a mapping of Vertex.getID() --> color.
+	 */
 	public static Map<Integer,Integer> welshPowell(Graph graph, ArrayList<Vertex> order) {
 		ArrayList<Vertex> L = (ArrayList<Vertex>) order.clone();
 
@@ -88,6 +85,9 @@ public class Algorithms {
 		return false;
 	}
 
+	/**
+	 * DSATUR heuristic. Returns a mapping of Vertex.getID() --> color.
+	 */
 	public static Map<Integer,Integer> dsatur(Graph graph) {
 		Map<Integer,Integer> dsatMap = new HashMap<>();
 		Map<Integer,Integer> colorMap = new HashMap<>();
@@ -152,6 +152,9 @@ public class Algorithms {
 		}
 	}
 
+	/**
+	 * Returns the available colors for the given Vertex ID.
+	 */
 	private static boolean[] getAvailableColors(int id,Graph graph,Map<Integer,Integer> colorMap){
 		boolean[] available = new boolean[graph.nbVertices];
 		LinkedList<Integer> linkedList = graph.listAdjacent.get(id);
@@ -167,7 +170,9 @@ public class Algorithms {
 		return available;
 	}
 
-
+	/**
+	 * Checks the coloring returned by one of the algorithms above.
+	 */
 	public static boolean checkColoring(Graph graph,Map<Integer,Integer> colorMap){
 		if(colorMap.size()!=graph.nbVertices) return false;
 		for (int id = 0; id < graph.listAdjacent.size(); id++) {

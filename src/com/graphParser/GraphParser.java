@@ -12,6 +12,10 @@ public class GraphParser {
 
 	private GraphParser(){}
 
+	/**
+	 * Returns a graph from a file path. The file must contain the following elements : a line starting with p describing the Graph. Ex : e 150 2500 (150 : number of vertices, 2500 : number of edges)
+	 * Lines starting with e describing an edge. Ex : e 10 12 (edge between the vertices 10 and 12).
+	 */
 	public static Graph getGraphFromFile(String filepath) throws Exception {
 		File f = new File(filepath);
 		BufferedReader br = new BufferedReader(new FileReader(f));

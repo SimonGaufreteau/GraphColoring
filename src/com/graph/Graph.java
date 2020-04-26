@@ -3,6 +3,9 @@ package com.graph;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
+/**
+ * Simple implementation of a Graph using {@link Vertex} and {@link Edge}.
+ */
 public class Graph {
 	String name;
 	boolean isDirected;

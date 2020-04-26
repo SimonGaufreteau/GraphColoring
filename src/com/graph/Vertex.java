@@ -2,6 +2,9 @@ package com.graph;
 
 import java.util.Arrays;
 
+/**
+ * A simple Vertex implementation for the {@link Graph} class.
+ */
 public class Vertex {
 	private int id;
 	private String name;

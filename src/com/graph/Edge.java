@@ -2,6 +2,9 @@ package com.graph;
 
 import java.util.Arrays;
 
+/**
+ * A simple Edge implementation for the {@link Graph} class.
+ */
 public class Edge {
 	private int id;
 	private int indexInitialVertex;
