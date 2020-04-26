@@ -19,8 +19,12 @@ public class Main {
 	private static final double nanoToMS =Math.pow(10,6);
 
 	public static void main(String[] args) throws Exception {
+		Graph graph = GraphParser.getGraphFromFile("tests/graphs/anna.col");
+		randomTests(graph);
 
+	}
 
+	private static void printToFile(String[] args) throws Exception {
 		if(args.length!=1){
 			throw new Exception("Args length must be 1. Only the path to the test directory containing .col files is accepted as an argument.");
 		}
@@ -48,7 +52,6 @@ public class Main {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-
 	}
 
 	private static void testDsatur(Graph graph){
