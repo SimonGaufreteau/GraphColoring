@@ -46,7 +46,7 @@ public class GraphParser {
 					if(extension.equals("col"))
 						n++;
 					nbVertices=Integer.parseInt(splitLine[n]);
-					nbEdges=Integer.parseInt(splitLine[n]);
+					nbEdges=Integer.parseInt(splitLine[n+1]);
 
 					for(int i=0;i<nbVertices;i++){
 						Vertex tempVertex = new Vertex(i,"",nbVertexValues,null);

@@ -3,6 +3,7 @@ package com.graph;
 import java.util.*;
 
 public class SpanningAlgorithms {
+	private static Random random=new Random();
 	private SpanningAlgorithms(){}
 
 
@@ -89,18 +90,22 @@ public class SpanningAlgorithms {
 	 * 	Implementation of the Kruskal algorithm (v2)
 	 */
 	public static ArrayList<Edge> Kruskal2(Graph graph) {
-		subset[] subsets = makeSets(graph);
-		ArrayList<Edge> result = new ArrayList<>();
 		ArrayList<Edge> order = (ArrayList<Edge>) graph.getListEdges().clone();
 		order.sort((o1, o2) -> (int) (o2.getFirstValue()-o1.getFirstValue()));
 		ArrayList<Edge> T = (ArrayList<Edge>) graph.getListEdges().clone();
 		int i=0;
 		int n=graph.nbVertices;
-		while(T.size()>=n){
-			T.remove(order.get(i));
-			Graph tempGraph = new Graph((ArrayList<Vertex>)graph.listVertices.clone(),T,(ArrayList<LinkedList<Integer>>)graph.listAdjacent.clone());
-			if(!isConnected(tempGraph))
-				T.add(order.get(i));
+		int size= T.size();
+		Graph tempGraph = new Graph((ArrayList<Vertex>) graph.listVertices.clone(), T, (ArrayList<LinkedList<Integer>>) graph.listAdjacent.clone());
+		while(size>=n){
+			//T.remove(order.get(i));
+			Edge temp = T.set(order.get(i).getId(),null);
+			size--;
+			if(!isConnected(tempGraph)){
+				T.set(temp.getId(),temp);
+				size++;
+			}
+			i++;
 		}
 		return T;
 	}
@@ -109,6 +114,7 @@ public class SpanningAlgorithms {
 		visited[vID]=true;
 		for(int edgeID:graph.listAdjacent.get(vID)){
 				Edge edge = graph.listEdges.get(edgeID);
+				if(edge==null) continue;
 				int neighbourID;
 				if (edge.getIndexInitialVertex() == vID) neighbourID = edge.getIndexFinalVertex();
 				else neighbourID = edge.getIndexInitialVertex();
@@ -118,16 +124,16 @@ public class SpanningAlgorithms {
 	}
 
 	public static boolean isConnected(Graph graph){
-		for(Vertex vertex:graph.listVertices){
-			int vID = vertex.getId();
-			boolean[] visited = new boolean[graph.nbVertices];
-			Arrays.fill(visited,false);
-			traverse(graph,vID,visited);
-			for(int i=0;i<graph.nbVertices;i++){
-				if(!visited[i])
-					return false;
-			}
+		Vertex vertex = graph.listVertices.get(random.nextInt(graph.getNbVertices()));
+		int vID = vertex.getId();
+		boolean[] visited = new boolean[graph.nbVertices];
+		Arrays.fill(visited,false);
+		traverse(graph,vID,visited);
+		for(int i=0;i<graph.nbVertices;i++){
+			if(!visited[i])
+				return false;
 		}
+
 		return true;
 	}
 

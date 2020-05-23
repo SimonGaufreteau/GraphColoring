@@ -3,6 +3,7 @@ package com;
 import com.graph.*;
 import com.graphParser.GraphParser;
 
+import java.beans.PropertyEditorManager;
 import java.util.*;
 
 public class MainMST {
@@ -10,7 +11,7 @@ public class MainMST {
 
 	public static void main(String[] args) throws Exception {
 		//shrd150
-		Graph graph = GraphParser.getGraphFromFile("tests/MSTgraphs/sym709.mst");
+		Graph graph = GraphParser.getGraphFromFile("tests/MSTgraphs/crd1003.mst");
 		System.out.println(graph);
 
 		//Kruskal1
@@ -19,16 +20,16 @@ public class MainMST {
 		ArrayList<Edge> edges = SpanningAlgorithms.Kruskal1(graph);
 		double resultTime = (System.nanoTime()-startTime)/nanoToMS;
 		SpanningAlgorithms.displayKruskal(edges);
-		System.out.println("Time : "+resultTime);
-
+		System.out.println("Time : "+resultTime+"ms");
 
 		//Kruskal2
-		/*System.out.println("Results for Kruskal v2 :\n");
+		System.out.println("\nResults for Kruskal v2 :");
 		startTime=System.nanoTime();
 		edges =  SpanningAlgorithms.Kruskal2(graph);
 		resultTime = (System.nanoTime()-startTime)/nanoToMS;
+		edges.removeIf(Objects::isNull);
 		SpanningAlgorithms.displayKruskal(edges);
-		System.out.println("Time : "+resultTime);*/
+		System.out.println("Time : "+resultTime+"ms");
 
 		//Prim
 		System.out.println("\nResults for Prim :");
@@ -38,7 +39,7 @@ public class MainMST {
 		Vertex[] pred = SpanningAlgorithms.prim(graph,randomVertex);
 		resultTime = (System.nanoTime()-startTime)/nanoToMS;
 		SpanningAlgorithms.displayPrim(graph,pred);
-		System.out.println("Time : "+resultTime);
+		System.out.println("Time : "+resultTime+"ms");
 
 
 		//Prim Fibo
@@ -47,27 +48,7 @@ public class MainMST {
 		pred = SpanningAlgorithms.primFibo(graph,randomVertex);
 		resultTime = (System.nanoTime()-startTime)/nanoToMS;
 		SpanningAlgorithms.displayPrim(graph,pred);
-		System.out.println("Time : "+resultTime);
+		System.out.println("Time : "+resultTime+"ms");
 	}
-/*
-	public static Graph constructGraph(Graph basegraph,Vertex[] pred){
-		ArrayList<Edge> list=new ArrayList<>();
-		for (int i = 0; i < pred.length; i++) {
-			Vertex predVertex = pred[i];
-			if(predVertex==null )continue;
-			LinkedList<Integer> adj = basegraph.getListAdjacent().get(i);
-			for (int nextID : adj) {
-				Edge edge = basegraph.getListEdges().get(nextID);
-				int neighbourID;
-				if (edge.getIndexInitialVertex() == i) neighbourID = edge.getIndexFinalVertex();
-				else neighbourID = edge.getIndexInitialVertex();
-				if(neighbourID==predVertex.getId()){
-					list.add(edge);
-					break;
-				}
-			}
-		}
-		return new Graph(basegraph.getListVertices(),list,basegraph.getListAdjacent());
-	}*/
 
 }
