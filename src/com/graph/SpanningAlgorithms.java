@@ -133,8 +133,7 @@ public class SpanningAlgorithms {
 
 
 	/**
-	 * Prim Algorithm
-	 * @return
+	 * Prim Algorithm with a simple priorityQueue
 	 */
 	public static Vertex[] prim(Graph graph, Vertex v){
 		PriorityQueue<Vertex> priorityQueue = new PriorityQueue<>(Comparator.comparingDouble(Vertex::getPriority));
@@ -182,10 +181,67 @@ public class SpanningAlgorithms {
 	}
 
 
+	/**
+	 * Prim algorithm with a FibonacciHeap
+	 */
+	public static Vertex[] primFibo(Graph graph, Vertex v){
+		FibonacciHeap<Vertex> fibonacciHeap = new FibonacciHeap<>();
+		Vertex[] pred = new Vertex[graph.getNbVertices()];
+		boolean[] visited = new boolean[graph.nbVertices];
+
+		//Used to save the references in the heap to avoid any search
+		FibonacciHeap.Entry<Vertex>[] visitedVertices = new FibonacciHeap.Entry[graph.nbVertices];
+
+		//Init for the queue and the pred vertices
+		for(Vertex vertex:graph.listVertices){
+			int id =vertex.getId();
+			if(id==v.getId())continue;
+
+			//Saving the reference to the node
+			visitedVertices[id]=fibonacciHeap.enqueue(vertex,Double.POSITIVE_INFINITY);
+
+			pred[id]=null;
+			visited[id]=false;
+		}
+
+		//Starting with v --> priority=0
+		fibonacciHeap.enqueue(v,0d);
+
+		//Continuing while elements to check
+		while(!fibonacciHeap.isEmpty()){
+
+			//Extract-min
+			FibonacciHeap.Entry<Vertex> entry = fibonacciHeap.dequeueMin();
+			Vertex u = entry.getValue();
+			int vID=u.getId();
+			visited[vID]=true;
+
+			//Looping over adjacent edges/vertices
+			for(int nextID:graph.listAdjacent.get(vID)){
+				//Getting the neighbour ID
+				Edge edge = graph.listEdges.get(nextID);
+				int neighbourID;
+				if (edge.getIndexInitialVertex() == vID) neighbourID = edge.getIndexFinalVertex();
+				else neighbourID = edge.getIndexInitialVertex();
+				Vertex neighbour = graph.listVertices.get(neighbourID);
+
+				//Checking for an update
+				if(!visited[neighbourID] && edge.getFirstValue()<=neighbour.getPriority()){
+					//Saving the predecessor
+					pred[neighbourID]=u;
+					//Updating the queue
+					fibonacciHeap.decreaseKey(visitedVertices[neighbourID],edge.getFirstValue());
+				}
+			}
+		}
+		return pred;
+	}
+
+
 
 	public static void displayKruskal(ArrayList<Edge> result){
-		StringBuilder res = new StringBuilder("Displaying results :\n");
-		res.append("---\nList of edges :\n");
+		StringBuilder res = new StringBuilder();
+		/*res.append("---\nList of edges :\n");
 		for(Edge edge:result){
 			double[] values = edge.getValues();
 			res.append(edge.getId()).append(" (").append(edge.getIndexInitialVertex()).append(",").append(edge.getIndexFinalVertex()).append(") [ ");
@@ -193,18 +249,17 @@ public class SpanningAlgorithms {
 				res.append(values[i]).append(" ");
 			}
 			res.append("]\n");
-		}
+		}*/
 		res.append("---\n");
 		res.append("Total weight = ").append(getWeight(result));
-		res.append("\n---\n");
+		res.append("\n---");
 		System.out.println(res);
 	}
 
 	public static void displayPrim(Graph graph,Vertex[] result){
-		StringBuilder res = new StringBuilder("Displaying results :\n");
+		StringBuilder res = new StringBuilder();
 		res.append("---\nList of Vertices :\n");
-		for (int i = 0; i < result.length; i++) {
-			Vertex vertex = result[i];
+		for (Vertex vertex : result) {
 			if (vertex != null)
 				res.append(vertex.getId());
 			else
@@ -214,7 +269,7 @@ public class SpanningAlgorithms {
 		res.append("End");
 		res.append("---\n");
 		res.append("Total weight = ").append(getWeight(graph,result));
-		res.append("\n---\n");
+		res.append("\n---");
 		System.out.println(res);
 	}
 

@@ -1,42 +1,53 @@
 package com;
 
-import com.graph.Edge;
-import com.graph.Graph;
-import com.graph.SpanningAlgorithms;
-import com.graph.Vertex;
+import com.graph.*;
 import com.graphParser.GraphParser;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.Random;
+import java.util.*;
 
 public class MainMST {
+	private static final double nanoToMS =Math.pow(10,6);
+
 	public static void main(String[] args) throws Exception {
 		//shrd150
-		Graph graph = GraphParser.getGraphFromFile("tests/MSTgraphs/crd1005.mst");
+		Graph graph = GraphParser.getGraphFromFile("tests/MSTgraphs/sym709.mst");
 		System.out.println(graph);
 
 		//Kruskal1
-		System.out.println("Results for Kruskal v1 :\n");
+		System.out.println("Results for Kruskal v1 :");
+		long startTime=System.nanoTime();
 		ArrayList<Edge> edges = SpanningAlgorithms.Kruskal1(graph);
+		double resultTime = (System.nanoTime()-startTime)/nanoToMS;
 		SpanningAlgorithms.displayKruskal(edges);
-		System.out.println(SpanningAlgorithms.getWeight(edges));
+		System.out.println("Time : "+resultTime);
+
 
 		//Kruskal2
-		System.out.println("Results for Kruskal v2 :\n");
-		edges = SpanningAlgorithms.Kruskal1(graph);
-		//SpanningAlgorithms.displayAlgorithmsResults(edges);
-		System.out.println(SpanningAlgorithms.getWeight(edges));
+		/*System.out.println("Results for Kruskal v2 :\n");
+		startTime=System.nanoTime();
+		edges =  SpanningAlgorithms.Kruskal2(graph);
+		resultTime = (System.nanoTime()-startTime)/nanoToMS;
+		SpanningAlgorithms.displayKruskal(edges);
+		System.out.println("Time : "+resultTime);*/
 
 		//Prim
-		System.out.println("Results for Prim :\n");
+		System.out.println("\nResults for Prim :");
 		Random r = new Random();
 		Vertex randomVertex = graph.getListVertices().get(r.nextInt(graph.getNbVertices()));
-		System.out.println(randomVertex);
+		startTime=System.nanoTime();
 		Vertex[] pred = SpanningAlgorithms.prim(graph,randomVertex);
+		resultTime = (System.nanoTime()-startTime)/nanoToMS;
 		SpanningAlgorithms.displayPrim(graph,pred);
+		System.out.println("Time : "+resultTime);
 
+
+		//Prim Fibo
+		System.out.println("\nResults for Prim (Fibonacci) :");
+		startTime=System.nanoTime();
+		pred = SpanningAlgorithms.primFibo(graph,randomVertex);
+		resultTime = (System.nanoTime()-startTime)/nanoToMS;
+		SpanningAlgorithms.displayPrim(graph,pred);
+		System.out.println("Time : "+resultTime);
 	}
 /*
 	public static Graph constructGraph(Graph basegraph,Vertex[] pred){
