@@ -41,8 +41,13 @@ public class GraphParser {
 				case 'p' :
 					splitLine = line.split(" ");
 					if(splitLine.length<3) throw new Exception("Incorrect line. Split length of the 'p' line must be 3");
-					nbVertices=Integer.parseInt(splitLine[2]);
-					nbEdges=Integer.parseInt(splitLine[3]);
+					int n = 1;
+					String extension= name.split("[.]")[1];
+					if(extension.equals("col"))
+						n++;
+					nbVertices=Integer.parseInt(splitLine[n]);
+					nbEdges=Integer.parseInt(splitLine[n]);
+
 					for(int i=0;i<nbVertices;i++){
 						Vertex tempVertex = new Vertex(i,"",nbVertexValues,null);
 						listVertices.add(tempVertex);
@@ -51,10 +56,18 @@ public class GraphParser {
 					break;
 				case 'e':
 					splitLine = line.split(" ");
-					if(splitLine.length!=3) throw new Exception("Incorrect line. Split length of the 'e' line must be 3");
+					if(splitLine.length<3) throw new Exception("Incorrect line. Split length of the 'e' line must be 3");
 					int initialID= Integer.parseInt(splitLine[1])-1;
 					int finalID=Integer.parseInt(splitLine[2])-1;
-					Edge edge = new Edge(edgeCounter,initialID,finalID,"","",nbEdgesValues,null);
+					double[] values=null;
+					if(splitLine.length>3){
+						nbEdgesValues=splitLine.length-3;
+						values = new double[splitLine.length-3];
+						for(int i=3;i<splitLine.length;i++){
+							values[i-3]= Double.parseDouble(splitLine[i]);
+						}
+					}
+					Edge edge = new Edge(edgeCounter,initialID,finalID,"","",nbEdgesValues,values);
 					listEdges.add(edge);
 					listVertices.get(initialID).incrementDegree();
 					listVertices.get(finalID).incrementDegree();
