@@ -2,8 +2,8 @@ package com.graph;
 
 import java.util.*;
 
-public class Algorithms {
-	private Algorithms(){}
+public class ColoringAlgorithms {
+	private ColoringAlgorithms(){}
 
 	private static int findSmallestColor(boolean[] available, int nb) {
 		int color;

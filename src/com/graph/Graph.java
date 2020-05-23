@@ -29,9 +29,17 @@ public class Graph {
 		this.listAdjacent=listAdjacent;
 	}
 
+	public Graph(ArrayList<Vertex> vertices, ArrayList<Edge> edges,ArrayList<LinkedList<Integer>> listAdjacent) {
+		this("",false,vertices.size(),edges.size(),vertices.get(0).getNbValues(),edges.get(0).getNbValues(),vertices,edges,listAdjacent);
+	}
+
 
 	public ArrayList<Vertex> getListVertices() {
 		return listVertices;
+	}
+
+	public ArrayList<Edge> getListEdges() {
+		return listEdges;
 	}
 
 	public String degreesToString(){

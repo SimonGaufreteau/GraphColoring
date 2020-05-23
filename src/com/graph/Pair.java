@@ -4,6 +4,8 @@ package com.graph;
  * A simple Pair class with a Key and a Value.
  * @param <K> Type of the Key.
  * @param <V> Type of the Value.
+ * @author simon
+ * @version 1.1
  */
 public class Pair<K,V> {
     private final K key;

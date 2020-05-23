@@ -52,6 +52,11 @@ public class Edge {
 		return values;
 	}
 
+	public double getFirstValue(){
+		if(nbValues>0)
+			return values[0];
+		return 0;
+	}
 	@Override
 	public String toString() {
 		return "Edge{" +
