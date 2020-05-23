@@ -13,6 +13,7 @@ public class Vertex {
 	private int color;
 	private int nbValues;
 	private double[] values;
+	private double priority;
 
 	public Vertex(int id,String name,int nbValues,double[] values){
 		this.id=id;
@@ -22,6 +23,7 @@ public class Vertex {
 		this.color=0;
 		this.degree=0;
 		this.degreePos=0;
+		this.priority=0;
 	}
 
 	public void incrementDegree(){
@@ -56,6 +58,11 @@ public class Vertex {
 		return values;
 	}
 
+	public double getPriority(){return priority;}
+
+	public void setPriority(double priority) {
+		this.priority = priority;
+	}
 
 	@Override
 	public String toString() {
@@ -65,6 +72,7 @@ public class Vertex {
 				", degree=" + degree +
 				", degreePos=" + degreePos +
 				", color=" + color +
+				", priority=" + priority +
 				", nbValues=" + nbValues +
 				", values=" + Arrays.toString(values) +
 				'}';

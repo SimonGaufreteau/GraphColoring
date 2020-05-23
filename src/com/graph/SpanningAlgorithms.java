@@ -1,10 +1,6 @@
 package com.graph;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.LinkedList;
-import java.util.concurrent.RunnableScheduledFuture;
+import java.util.*;
 
 public class SpanningAlgorithms {
 	private SpanningAlgorithms(){}
@@ -56,7 +52,7 @@ public class SpanningAlgorithms {
 		return subsets;
 	}
 
-	private static int isCycle(Graph graph)
+	public static int isCycle(Graph graph)
 	{
 		int E = graph.nbEdges;
 		for (int e = 0; e < E; e++)
@@ -135,7 +131,59 @@ public class SpanningAlgorithms {
 		return true;
 	}
 
-	public static void displayAlgorithmsResults(ArrayList<Edge> result){
+
+	/**
+	 * Prim Algorithm
+	 * @return
+	 */
+	public static Vertex[] prim(Graph graph, Vertex v){
+		PriorityQueue<Vertex> priorityQueue = new PriorityQueue<>(Comparator.comparingDouble(Vertex::getPriority));
+		Vertex[] pred = new Vertex[graph.getNbVertices()];
+
+		//Init for the queue and the pred vertices
+		for(Vertex vertex:graph.listVertices){
+			if(vertex.getId()==v.getId())continue;
+			vertex.setPriority(Double.POSITIVE_INFINITY);
+			priorityQueue.offer(vertex);
+			pred[vertex.getId()]=null;
+		}
+
+		//Starting with v --> priority=0
+		v.setPriority(0);
+		priorityQueue.offer(v);
+
+		//Continuing while elements to check
+		while(!priorityQueue.isEmpty()){
+			Vertex u = priorityQueue.poll();
+			int vID=u.getId();
+
+			//Looping over adjacent edges/vertices
+			for(int nextID:graph.listAdjacent.get(vID)){
+				//Getting the neighbour ID
+				Edge edge = graph.listEdges.get(nextID);
+				int neighbourID;
+				if (edge.getIndexInitialVertex() == vID) neighbourID = edge.getIndexFinalVertex();
+				else neighbourID = edge.getIndexInitialVertex();
+				Vertex neighbour = graph.listVertices.get(neighbourID);
+
+				//Checking for an update
+				if(priorityQueue.contains(neighbour) && edge.getFirstValue()<=neighbour.getPriority()){
+					//Saving the predecessor
+					pred[neighbourID]=u;
+
+					//Updating the queue
+					priorityQueue.remove(neighbour);
+					neighbour.setPriority(edge.getFirstValue());
+					priorityQueue.offer(neighbour);
+				}
+			}
+		}
+		return pred;
+	}
+
+
+
+	public static void displayKruskal(ArrayList<Edge> result){
 		StringBuilder res = new StringBuilder("Displaying results :\n");
 		res.append("---\nList of edges :\n");
 		for(Edge edge:result){
@@ -150,6 +198,46 @@ public class SpanningAlgorithms {
 		res.append("Total weight = ").append(getWeight(result));
 		res.append("\n---\n");
 		System.out.println(res);
+	}
+
+	public static void displayPrim(Graph graph,Vertex[] result){
+		StringBuilder res = new StringBuilder("Displaying results :\n");
+		res.append("---\nList of Vertices :\n");
+		for (int i = 0; i < result.length; i++) {
+			Vertex vertex = result[i];
+			if (vertex != null)
+				res.append(vertex.getId());
+			else
+				res.append("null");
+			res.append(" --> ");
+		}
+		res.append("End");
+		res.append("---\n");
+		res.append("Total weight = ").append(getWeight(graph,result));
+		res.append("\n---\n");
+		System.out.println(res);
+	}
+
+	private static double getWeight(Graph graph,Vertex[] result) {
+		ArrayList<LinkedList<Integer>> adj = graph.getListAdjacent();
+		double weight = 0;
+		for (int i = 0; i < result.length; i++) {
+			if(result[i]==null)
+				continue;
+			int vID=result[i].getId();
+			LinkedList<Integer> edges = adj.get(vID);
+			for (int nextID : edges) {
+				Edge edge = graph.listEdges.get(nextID);
+				int neighbourID;
+				if (edge.getIndexInitialVertex() == vID) neighbourID = edge.getIndexFinalVertex();
+				else neighbourID = edge.getIndexInitialVertex();
+				if(neighbourID==i){
+					weight+=edge.getFirstValue();
+					break;
+				}
+			}
+		}
+		return weight;
 	}
 
 	public static double getWeight(ArrayList<Edge> edges){

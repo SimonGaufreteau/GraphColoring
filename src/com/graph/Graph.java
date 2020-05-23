@@ -42,6 +42,34 @@ public class Graph {
 		return listEdges;
 	}
 
+	public String getName() {
+		return name;
+	}
+
+	public boolean isDirected() {
+		return isDirected;
+	}
+
+	public int getNbVertices() {
+		return nbVertices;
+	}
+
+	public int getNbEdges() {
+		return nbEdges;
+	}
+
+	public int getNbVertexValues() {
+		return nbVertexValues;
+	}
+
+	public int getNbEdgesValues() {
+		return nbEdgesValues;
+	}
+
+	public ArrayList<LinkedList<Integer>> getListAdjacent() {
+		return listAdjacent;
+	}
+
 	public String degreesToString(){
 		StringBuilder res = new StringBuilder("List of degrees : \n");
 		for(Vertex vertex:listVertices){
@@ -82,6 +110,7 @@ public class Graph {
 			LinkedList<Integer> linkedList=listAdjacent.get(i);
 			res.append(i).append(" - ");
 			for (Integer integer : linkedList) {
+				if(integer>=listEdges.size()) continue;
 				Edge tempEdge = listEdges.get(integer);
 				if (i == tempEdge.getIndexInitialVertex())
 					res.append(tempEdge.getIndexFinalVertex()).append("(").append(tempEdge.getId()).append(") ");
