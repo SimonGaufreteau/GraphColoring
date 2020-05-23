@@ -1,6 +1,6 @@
 package com;
 
-import com.graph.Algorithms;
+import com.graph.ColoringAlgorithms;
 import com.graph.Graph;
 import com.graph.Vertex;
 import com.graphParser.GraphParser;
@@ -56,9 +56,9 @@ public class Main {
 
 	private static void testDsatur(Graph graph){
 		long startTime=System.nanoTime();
-		Map<Integer, Integer> colorMap = Algorithms.dsatur(graph);
+		Map<Integer, Integer> colorMap = ColoringAlgorithms.dsatur(graph);
 		double resultTime = (System.nanoTime()-startTime)/nanoToMS;
-		int numberOfColors = Algorithms.getMaxColor(colorMap)+1;
+		int numberOfColors = ColoringAlgorithms.getMaxColor(colorMap)+1;
 		System.out.println(numberOfColors+","+resultTime);
 	}
 
@@ -67,9 +67,9 @@ public class Main {
 		ArrayList<Vertex> order = (ArrayList<Vertex>) graph.getListVertices().clone();
 		order.sort(((o1, o2) -> o2.getDegree()-o1.getDegree()));
 		long startTime=System.nanoTime();
-		Map<Integer, Integer> colorMap = Algorithms.welshPowell(graph, order);
+		Map<Integer, Integer> colorMap = ColoringAlgorithms.welshPowell(graph, order);
 		double resultTime = (System.nanoTime()-startTime)/nanoToMS;
-		int numberOfColors = Algorithms.getMaxColor(colorMap)+1;
+		int numberOfColors = ColoringAlgorithms.getMaxColor(colorMap)+1;
 		System.out.println(numberOfColors+","+resultTime);
 
 	}
@@ -78,9 +78,9 @@ public class Main {
 		ArrayList<Vertex> order = (ArrayList<Vertex>) graph.getListVertices().clone();
 		order.sort((Comparator.comparingInt(Vertex::getDegree)));
 		long startTime=System.nanoTime();
-		Map<Integer, Integer> colorMap = Algorithms.welshPowell(graph, order);
+		Map<Integer, Integer> colorMap = ColoringAlgorithms.welshPowell(graph, order);
 		double resultTime = (System.nanoTime()-startTime)/nanoToMS;
-		int numberOfColors = Algorithms.getMaxColor(colorMap)+1;
+		int numberOfColors = ColoringAlgorithms.getMaxColor(colorMap)+1;
 		System.out.println(numberOfColors+","+resultTime);
 
 	}
@@ -92,9 +92,9 @@ public class Main {
 		for(int i=0;i<100;i++){
 			Collections.shuffle(order);
 			long startTime=System.nanoTime();
-			Map<Integer, Integer> colorMap = Algorithms.welshPowell(graph, order);
+			Map<Integer, Integer> colorMap = ColoringAlgorithms.welshPowell(graph, order);
 			double resultTime = (System.nanoTime()-startTime)/nanoToMS;
-			int numberOfColors = Algorithms.getMaxColor(colorMap)+1;
+			int numberOfColors = ColoringAlgorithms.getMaxColor(colorMap)+1;
 			colorTab[i]=numberOfColors;
 			timeToExec[i]=resultTime;
 		}
@@ -126,50 +126,50 @@ public class Main {
 
 		ArrayList<Vertex> order = (ArrayList<Vertex>) graph.getListVertices().clone();
 		long startTime = System.nanoTime();
-		Map<Integer,Integer> colorMap = Algorithms.greedyColoring(graph,order);
+		Map<Integer,Integer> colorMap = ColoringAlgorithms.greedyColoring(graph,order);
 		System.out.println("Time taken to execute the algorithm : "+(System.nanoTime()-startTime)/nanoToMS+"ms");
 
 		//Algorithms.displayColoringResult(colorMap);
-		System.out.println("Checking coloring : " +(Algorithms.checkColoring(graph,colorMap)?"valid":"invalid"));
-		System.out.println("Max color : "+Algorithms.getMaxColor(colorMap));
+		System.out.println("Checking coloring : " +(ColoringAlgorithms.checkColoring(graph,colorMap)?"valid":"invalid"));
+		System.out.println("Max color : "+ ColoringAlgorithms.getMaxColor(colorMap));
 
 		System.out.println("\nShuffling the order...\n");
 		Collections.shuffle(order);
 		startTime=System.nanoTime();
-		colorMap= Algorithms.greedyColoring(graph,order);
+		colorMap= ColoringAlgorithms.greedyColoring(graph,order);
 		System.out.println("Time taken to execute the algorithm : "+(System.nanoTime()-startTime)/nanoToMS+"ms");
 
 		//Algorithms.displayColoringResult(colorMap);
-		System.out.println("Checking coloring : " +(Algorithms.checkColoring(graph,colorMap)?"valid":"invalid"));
-		System.out.println("Max color : "+Algorithms.getMaxColor(colorMap));
+		System.out.println("Checking coloring : " +(ColoringAlgorithms.checkColoring(graph,colorMap)?"valid":"invalid"));
+		System.out.println("Max color : "+ ColoringAlgorithms.getMaxColor(colorMap));
 
 		System.out.println("\nSorting the order...\n");
 		order.sort((o1, o2) -> o2.getDegree()-o1.getDegree());
 		System.out.println(Arrays.toString(order.toArray()));
 
 		startTime=System.nanoTime();
-		colorMap= Algorithms.greedyColoring(graph,order);
+		colorMap= ColoringAlgorithms.greedyColoring(graph,order);
 		System.out.println("Time taken to execute the algorithm : "+(System.nanoTime()-startTime)/nanoToMS+"ms");
-		System.out.println("Checking coloring : " +(Algorithms.checkColoring(graph,colorMap)?"valid":"invalid"));
-		System.out.println("Max color : "+Algorithms.getMaxColor(colorMap));
+		System.out.println("Checking coloring : " +(ColoringAlgorithms.checkColoring(graph,colorMap)?"valid":"invalid"));
+		System.out.println("Max color : "+ ColoringAlgorithms.getMaxColor(colorMap));
 
 
 		System.out.println("\nWelsh Powell :\n");
 		startTime=System.nanoTime();
-		colorMap= Algorithms.welshPowell(graph,order);
+		colorMap= ColoringAlgorithms.welshPowell(graph,order);
 		System.out.println("Time taken to execute the algorithm : "+(System.nanoTime()-startTime)/nanoToMS+"ms");
 
 		//Algorithms.displayColoringResult(colorMap);
-		System.out.println("Checking coloring : " +(Algorithms.checkColoring(graph,colorMap)?"valid":"invalid"));
-		System.out.println("Max color : "+Algorithms.getMaxColor(colorMap));
+		System.out.println("Checking coloring : " +(ColoringAlgorithms.checkColoring(graph,colorMap)?"valid":"invalid"));
+		System.out.println("Max color : "+ ColoringAlgorithms.getMaxColor(colorMap));
 
 		System.out.println("\nDSATUR :\n");
 		startTime=System.nanoTime();
-		colorMap= Algorithms.dsatur(graph);
+		colorMap= ColoringAlgorithms.dsatur(graph);
 		System.out.println("Time taken to execute the algorithm : "+(System.nanoTime()-startTime)/nanoToMS+"ms");
 		//Algorithms.displayColoringResult(colorMap);
-		System.out.println("Checking coloring : " +(Algorithms.checkColoring(graph,colorMap)?"valid":"invalid"));
-		System.out.println("Max color : "+Algorithms.getMaxColor(colorMap));
+		System.out.println("Checking coloring : " +(ColoringAlgorithms.checkColoring(graph,colorMap)?"valid":"invalid"));
+		System.out.println("Max color : "+ ColoringAlgorithms.getMaxColor(colorMap));
 	}
 
 
