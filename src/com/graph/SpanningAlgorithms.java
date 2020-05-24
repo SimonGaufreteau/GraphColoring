@@ -213,6 +213,7 @@ public class SpanningAlgorithms {
 
 			//Saving the reference to the node
 			visitedVertices[id]=fibonacciHeap.enqueue(vertex,Double.POSITIVE_INFINITY);
+			vertex.setPriority(Double.POSITIVE_INFINITY);
 
 			pred[id]=null;
 			visited[id]=false;
@@ -245,6 +246,7 @@ public class SpanningAlgorithms {
 					pred[neighbourID]=u;
 					//Updating the queue
 					fibonacciHeap.decreaseKey(visitedVertices[neighbourID],edge.getFirstValue());
+					neighbour.setPriority(edge.getFirstValue());
 				}
 			}
 		}
@@ -570,7 +572,7 @@ public class SpanningAlgorithms {
 		System.out.println(res);
 	}
 
-	private static double getWeight(Graph graph,Vertex[] result) {
+	public static double getWeight(Graph graph,Vertex[] result) {
 		ArrayList<LinkedList<Integer>> adj = graph.getListAdjacent();
 		double weight = 0;
 		for (int i = 0; i < result.length; i++) {
