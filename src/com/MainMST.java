@@ -11,7 +11,7 @@ public class MainMST {
 
 	public static void main(String[] args) throws Exception {
 		//shrd150
-		Graph graph = GraphParser.getGraphFromFile("tests/MSTgraphs/crd1003.mst");
+		Graph graph = GraphParser.getGraphFromFile("tests/MSTgraphs/sym302.mst");
 		System.out.println(graph);
 
 		//Kruskal1
@@ -49,6 +49,27 @@ public class MainMST {
 		resultTime = (System.nanoTime()-startTime)/nanoToMS;
 		SpanningAlgorithms.displayPrim(graph,pred);
 		System.out.println("Time : "+resultTime+"ms");
+
+
+		//Prim D-MST
+		int k=3;
+		System.out.println("\nResults for Prim (DMST) :");
+		startTime=System.nanoTime();
+		edges =  SpanningAlgorithms.primDMST(graph,k);
+		resultTime = (System.nanoTime()-startTime)/nanoToMS;
+		SpanningAlgorithms.displayKruskal(edges);
+		System.out.println("Time : "+resultTime+"ms");
+
+		//D-MST
+		/*System.out.println("\nResults for D-MST ("+k+") :");
+		startTime=System.nanoTime();
+		edges =  SpanningAlgorithms.dmst(graph,k);
+		resultTime = (System.nanoTime()-startTime)/nanoToMS;
+		SpanningAlgorithms.displayKruskal(edges);
+		System.out.println("Time : "+resultTime+"ms");*/
+
+
+
 	}
 
 }

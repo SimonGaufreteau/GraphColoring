@@ -27,12 +27,20 @@ public class Graph {
 		this.listVertices = listVertices;
 		this.listEdges=listEdges;
 		this.listAdjacent=listAdjacent;
+		updateDegrees();
 	}
 
 	public Graph(ArrayList<Vertex> vertices, ArrayList<Edge> edges,ArrayList<LinkedList<Integer>> listAdjacent) {
 		this("",false,vertices.size(),edges.size(),vertices.get(0).getNbValues(),edges.get(0).getNbValues(),vertices,edges,listAdjacent);
+		updateAdjacent();
+		updateDegrees();
 	}
 
+	public void updateDegrees(){
+		for(Vertex vertex:listVertices){
+			vertex.setDegree(listAdjacent.get(vertex.getId()).size());
+		}
+	}
 
 	public ArrayList<Vertex> getListVertices() {
 		return listVertices;
@@ -94,7 +102,7 @@ public class Graph {
 			for(int i=0;i<vertex.getNbValues();i++){
 				res.append(values[i]).append(" ");
 			}
-			res.append("]\n");
+			res.append("] degree : ").append(vertex.getDegree()).append("\n");
 		}
 		res.append("---\nList of edges :\n");
 		for(Edge edge:listEdges){
@@ -122,5 +130,26 @@ public class Graph {
 		res.append("----- GRAPH -----\n");
 
 		return res.toString();
+	}
+
+	public void updateAdjacent() {
+		listAdjacent = new ArrayList<>();
+		for(int i=0;i<nbVertices;i++)listAdjacent.add(new LinkedList<>());
+
+		for(Edge edge:listEdges){
+			int initialID = edge.getIndexInitialVertex();
+			int finalID = edge.getIndexFinalVertex();
+			listAdjacent.get(initialID).add(edge.getId());
+			listAdjacent.get(finalID).add(edge.getId());
+		}
+	}
+
+	public int getMaxDegree() {
+		int max = 0;
+		for(Vertex v:listVertices){
+			if(v.getDegree()>max)
+				max=v.getDegree();
+		}
+		return max;
 	}
 }

@@ -64,6 +64,7 @@ public class Vertex {
 		this.priority = priority;
 	}
 
+	public void setDegree(int degree){this.degree=degree;}
 	@Override
 	public String toString() {
 		return "Vertex{" +
