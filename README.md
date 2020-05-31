@@ -1,11 +1,18 @@
 # Graph Coloring
 
+## About the project
+
+A simple project aiming at implementing the most common graph algorithms on 2 subjects :
+
+- Graph coloring : Greedy, DSATUR, Welsh-Powell
+- Minimum Spanning tree : Kruskal, Prim and an approximation to the Degree-constrained Minimum Spanning tree (or D-MST)
+
 ## How to use
 
 Just build the project and start the main method in the Main class.
 
 If you want to try different algorithms, take a look at the Algorithms class. 
-You can extract a graph from a .col file with the GraphParser class (example in the code and in the test/graphs directory).
+You can extract a graph from a .col or a .mst file with the GraphParser class (example in the code and in the test/graphs directory).
 
 ## Set up
 
